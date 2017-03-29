@@ -4,7 +4,7 @@ github:[https://github.com/lzxb/vue2-demo](https://github.com/lzxb/vue2-demo)
 
 ## 源码说明
 ### 项目目录说明
-```
+```pjlsssssssssss
 .
 |-- config                           // 项目开发环境配置
 |   |-- index.js                     // 项目打包部署配置
