@@ -25,10 +25,12 @@ id_rsa_yourName
 
 4、修改.ssh目录下的config文件（如果没有就新建）
 ```
-# 建一个gitlab别名，新建的帐号使用这个别名做克隆和更新
+# 建一个github别名，新建的帐号使用这个别名做克隆和更新
 Host github.com
  HostName github.com
  User git
  IdentityFile ~/.ssh/id_rsa_yourName
 
  ```
+默认提交到公司的gitlab里就用之前的默认生成id_rsa
+提交到github里时就会用到配置里的id_rsa_yourName
