@@ -1,4 +1,8 @@
-fork from
+
+11test
+```
+github:[https://github.com/lzxb/vue2-demo](https://github.com/lzxb/vue2-demo)
+
 
 我们配置下我们各自电脑的ssh，步骤如下：
 
