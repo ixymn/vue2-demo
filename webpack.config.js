@@ -6,7 +6,7 @@ const IS_ENV = process.env.NODE_ENV == 'production'
 
 
 var plugins = []
-// if (IS_ENV) { //生产环境
+if (IS_ENV) { //生产环境
     plugins.push(new webpack.DefinePlugin({
         'process.env': { //设置成生产环境
             NODE_ENV: '"production"'
@@ -20,7 +20,7 @@ var plugins = []
             warnings: false
         }
     }))
-// }
+}
 
 plugins.push(
     new HtmlWebpackPlugin({ //根据模板插入css/js等生成最终HTML

@@ -1,9 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
+import MintUI from 'mint-ui'
+import 'mint-ui/lib/style.css'
+import Icon from 'vue-awesome/components/Icon.vue'
+import 'vue-awesome/icons'
 import routes from './config/routes'
 import store from './store/'
 import components from './components/' //加载公共组件
+
 
 import './css/common.css'
 import './less/common.less'
@@ -14,7 +18,8 @@ Object.keys(components).forEach((key) => {
 })
 
 Vue.use(VueRouter)
-
+Vue.use(MintUI)
+Vue.component('icon', Icon)
 const router = new VueRouter({
     routes
 })

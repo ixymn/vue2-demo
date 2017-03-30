@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node server",
+    "dev": "node serverDev",
     "dev:dist": "cross-env NODE_ENV=production gulp devDist",
-    "dev:test": "gulp devTest"
+    "dev:test": "gulp devTest",
+    "dist": "node serverDist"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +16,7 @@
     "babel-core": "^6.18.0",
     "babel-helper-vue-jsx-merge-props": "^2.0.1",
     "babel-loader": "^6.2.7",
+    "babel-plugin-component": "^0.9.1",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-object-assign": "^6.8.0",
     "babel-plugin-transform-vue-jsx": "^3.1.1",
@@ -30,8 +32,10 @@
     "html-webpack-plugin": "^2.24.0",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
+    "mint-ui": "^2.2.2",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
+    "vue-awesome": "^2.2.3",
     "vue-loader": "^9.7.0",
     "webpack": "^1.13.3",
     "webpack-dev-middleware": "^1.10.1",

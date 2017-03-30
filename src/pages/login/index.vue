@@ -40,10 +40,10 @@
 	}
 </style>
 <template>
-	<div>
+<div>
 
     <div class="head"><p>LOG IN</p></div>
-    <div class="login-form">
+  <div class="login-form">
       <div class="login-error" v-bind:class="{ show: isError }">
         User name or password error
       </div>
@@ -52,13 +52,18 @@
   				<input type="number" placeholder="Username/phone" v-model="form.id" >
   			</div>
   			<div class="line">
-  				<input type="password" v-on:click="reset" placeholder="password" v-model="form.passwd" >
+  				<input type="password" v-on:click="reset" placeholder="password" v-model="form.name" >
   			</div>
   			<button>登录</button>
+        <icon name="camera"></icon>
   		</form>
     </div>
-
-	</div>
+    <mt-loadmore :top-method="loadTop" @top-status-change="handleTopChange">
+    <ul>
+      <li v-for="item in list">{{ item }}</li>
+    </ul>
+    </mt-loadmore>
+</div>
 </template>
 <script>
     import { mapActions } from 'vuex'
@@ -73,13 +78,18 @@
 					passwd: ''
 				},
         isError: false,
+        list:[1,2,3,4,5],
+        topStatus: ''
 			}
 		},
 		methods: {
             ...mapActions([USER_SIGNIN]),
+      handleTopChange(status) {
+              this.topStatus = status;
+            },
 			submit() {
 				this.btn = true
-				if(!this.form.id || !this.form.passwd) {
+				if(!this.form.id || !this.form.name) {
           this.isError = true;
           return
         }
@@ -89,7 +99,17 @@
 			},
       reset(){
         this.isError = false;
+      },
+      loadTop() {
+          this.list.push(this.list.length+1)
+          this.$refs.loadmore.onTopLoaded();
+        },
+      loadBottom() {
+        this.list.push(this.list.length+1)
+        this.allLoaded = true;// if all data are loaded
+        this.$refs.loadmore.onBottomLoaded();
       }
+
 		}
     }
 </script>
