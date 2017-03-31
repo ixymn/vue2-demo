@@ -1,16 +1,22 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import MintUI from 'mint-ui'
-import 'mint-ui/lib/style.css'
 import Icon from 'vue-awesome/components/Icon.vue'
 
 import routes from './config/routes'
 import store from './store/'
 import components from './components/' //加载公共组件
 
-
 import './css/common.css'
 import './less/common.less'
+
+/*flexible.js引入*/
+import './static/flexible_css.debug.js'
+import './static/flexible.debug.js'
+
+/*mint-ui引入*/
+import MintUI from 'mint-ui'
+import 'mint-ui/lib/style.css'
+Vue.use(MintUI)
 
 Object.keys(components).forEach((key) => {
     var name = key.replace(/(\w)/, (v) => v.toUpperCase()) //首字母大写
@@ -18,7 +24,6 @@ Object.keys(components).forEach((key) => {
 })
 
 Vue.use(VueRouter)
-Vue.use(MintUI)
 Vue.component('icon', Icon)
 Icon.register({
   lock: {
