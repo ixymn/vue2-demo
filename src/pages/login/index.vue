@@ -70,7 +70,7 @@
       <form class="login" v-on:submit.prevent="submit">
   			<div class="line">
           <icon name="user"></icon>
-  				<input type="number" placeholder="Username/phone" v-model="form.name" >
+  				<input type="text" placeholder="Username/phone" v-model="form.name" >
   			</div>
   			<div class="line">
           <icon name="lock"></icon>
@@ -113,13 +113,13 @@
             },
 			submit() {
 				this.btn = true
-				if(this.form.name!=this.name || this.form.passwd) {
+				if(this.form.name!=this.name || this.form.passwd!=this.passwd) {
           this.isError = true;
           return
         }
 				this.USER_SIGNIN(this.form)
         // actions中处理 USER_SIGNIN
-        if(needVerify){
+        if(this.needVerify){
           this.$router.replace({ path: '/verify' })
         }else{
           this.$router.replace({ path: '/home' })
