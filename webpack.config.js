@@ -12,7 +12,10 @@ if (IS_ENV) { //生产环境
             NODE_ENV: '"production"'
         }
     }))
-    plugins.push(new webpack.optimize.UglifyJsPlugin({ //压缩代码
+    plugins.push(new webpack.optimize.UglifyJsPlugin({
+      output: {
+              comments: false,
+          },
         compress: {
             warnings: false
         }

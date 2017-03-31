@@ -19,7 +19,7 @@ export default [
             {
                 path: '/home', //个人主页
                 component: resolve => require(['../pages/home/'], resolve)
-            },
+            },            
             {
                 path: '/', //首页
                 meta: { auth: false },

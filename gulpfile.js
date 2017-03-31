@@ -7,8 +7,8 @@ const isEnv = process.env.NODE_ENV == 'production'
  * 清除生产目录文件
  */
 const del = require('del')
-gulp.task('clean', ['upload'], function (callback) {
-    console.log('## 已经成功部署到服务器上')
+gulp.task('clean', function (callback) {
+    console.log('## 即将部署到本地app文件夹')
     console.log('## 清除原来编译的代码')
     del(['.' + config.publicPath], callback)
 })
@@ -29,20 +29,20 @@ gulp.task('build', function (callback) {
 /**
  * 编译代码，自动部署到服务器
  */
-const ftp = require('gulp-sftp')
-gulp.task('upload', ['build'], function (callback) {
-    console.log('## 正在部署到服务器上')
-    var dev = isEnv ? config.devDist : config.devTest
-    gulp.src('.' + config.publicPath + '**')
-        .pipe(ftp(Object.assign(dev, {callback})))
-})
+// const ftp = require('gulp-sftp')
+// gulp.task('upload', ['build'], function (callback) {
+//     console.log('## 正在部署到服务器上')
+//     var dev = isEnv ? config.devDist : config.devTest
+//     gulp.src('.' + config.publicPath + '**')
+//         .pipe(ftp(Object.assign(dev, {callback})))
+// })
 
 /**
  * 上传到测试服务器上
  */
-gulp.task('devTest', ['build', 'upload', 'clean'])
+gulp.task('devTest', ['build', 'clean'])
 
 /**
  * 上传到生产服务器上
  */
-gulp.task('devDist', ['build', 'upload', 'clean'])
+gulp.task('devDist', ['build',  'clean'])
