@@ -1,16 +1,30 @@
-更新了npm script ，用法如下
+# vue-tutorial
 
-'''
+> A Vue.js project
+
+## Build Setup
+
+``` bash
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
 npm run dev
-'''
-使用的是webpack dev server，启用了热更新，即改即生效
 
-'''
-npm run dev:dist
-'''
-打包生成静态文件在app文件夹下
+# build for production with minification
+npm run build
 
-'''
-npm run dist
-'''
-使用express加载刚刚打包的静态文件，这相当于是正式的生产环境访问静态文件的形式
+# build for production and view the bundle analyzer report
+npm run build --report
+
+# run unit tests
+npm run unit
+
+# run e2e tests
+npm run e2e
+
+# run all tests
+npm test
+```
+
+For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

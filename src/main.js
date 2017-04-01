@@ -1,33 +1,26 @@
+// src/main.js
 import Vue from 'vue'
+import store from './store'//vuex仓库
 import VueRouter from 'vue-router'
-import Icon from 'vue-awesome/components/Icon.vue'
+Vue.use(VueRouter)
 
-import routes from './config/routes'
-import store from './store/'
-import components from './components/' //加载公共组件
+import axios from 'axios';//请求模块
+Vue.prototype.$http = axios;
 
-/*normalize.css 重置样式 引入*/
-import 'normalize.css'
+import App from './App'
 
-import './css/common.css'
-import './less/common.less'
-
-/*flexible.js引入*/
-import './static/flexible_css.debug.js'
-import './static/flexible.debug.js'
-
-/*mint-ui引入*/
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
 Vue.use(MintUI)
 
-Object.keys(components).forEach((key) => {
-    var name = key.replace(/(\w)/, (v) => v.toUpperCase()) //首字母大写
-    Vue.component(`v${name}`, components[key])
-})
+import routes from './router/routes'
+import fastclick from 'fastclick'
+fastclick.attach(document.body);//300ms问题
 
-Vue.use(VueRouter)
-Vue.component('icon', Icon)
+import './static/flexible_css.debug.js'
+import './static/flexible.debug.js'
+
+import Icon from 'vue-awesome/components/Icon.vue'
 Icon.register({
   lock: {
     width:1000,
@@ -46,17 +39,42 @@ Icon.register({
   }
 })
 
+
+require('assets/css/common.less')
+
+
 const router = new VueRouter({
-    routes
+    mode: 'history',//H5模式or HASH模式
+    routes,
+    saveScrollPosition: true
 })
-router.beforeEach(({meta, path}, from, next) => {
-    var { auth = true } = meta
-    var isLogin = Boolean(store.state.user.id) //true用户已登录， false用户未登录
 
-    if (auth && !isLogin && path !== '/login') {
-        return next({ path: '/login' })
+//路由验证登录
+router.beforeEach((to, from, next) => {
+    var isLogin = Boolean(store.state.user.isLogin) //true用户已登录， false用户未登录
+    if (to.meta.requireAuth) {  // 判断该路由可否
+        console.log('here1')
+        if (isLogin) {  // 通过vuex state获取当前的token是否存在
+            next();
+        }
+        else {
+            next({path: '/login'})
+        }
+    }else {
+        console.log('here2')
+        next();
     }
-    next()
+    // next();
 })
 
-new Vue({ store, router }).$mount('#app')
+/* eslint-disable no-new */
+// 实例化我们的Vue
+new Vue({
+  el: '#app',
+  router,
+  store,
+  ...App
+})
+
+// new Vue({ store, router }).$mount('#app')
+
