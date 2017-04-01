@@ -19,6 +19,7 @@ fastclick.attach(document.body);//300ms问题
 
 import './static/flexible_css.debug.js'
 import './static/flexible.debug.js'
+import 'normalize.css'
 
 import Icon from 'vue-awesome/components/Icon.vue'
 Icon.register({

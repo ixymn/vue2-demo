@@ -23,6 +23,10 @@ export default [
         component: resolve => require(['../pages/home'], resolve)
     },
     {
+        path: '/verify',
+        component: resolve => require(['../pages/verify'], resolve)
+    },
+    {
         path: '/register',
         component: resolve => require(['../pages/register'], resolve)
     },
