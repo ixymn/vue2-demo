@@ -6,6 +6,9 @@ import routes from './config/routes'
 import store from './store/'
 import components from './components/' //加载公共组件
 
+/*normalize.css 重置样式 引入*/
+import 'normalize.css'
+
 import './css/common.css'
 import './less/common.less'
 
