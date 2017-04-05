@@ -22,12 +22,10 @@ export default [
             },
             {
                 path: '/', //首页
-                meta: { auth: false },
                 component: resolve => require(['../pages/index/'], resolve)
             },
             {
                 path: '/verify', //首页
-                meta: { auth: false },
                 component: resolve => require(['../pages/verify/'], resolve)
             },
             {

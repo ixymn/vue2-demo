@@ -4,8 +4,8 @@
   }
   .verify-hint{
     width: 100%;
-    height: 32px;
-    line-height: 32px;
+    height: 0.44444rem;
+    line-height: 0.44444rem;
     text-align: center;
     position: absolute;
     visibility: hidden;
@@ -21,40 +21,42 @@
   }
   .head {
     text-align: center;
-    font-size: 20px;
-    padding-top: 40px;
+    font-size: 0.47222rem;
+    padding-top: 0.44444rem;
   }
 	.verify {
-		padding: 50px;
+		padding: 0.41667rem;
 		text-align: center;
 		.line {
-			padding: 10px 5px 0 5px;
-      border-bottom: 1px solid #efedfa;
+			padding: 0.38889rem 0.06944rem 0.27778rem 0.06944rem;
+      margin:0.27778rem;
+      border-bottom: 0.01389rem solid #efedfa;
       display: flex;
       align-items: center;
       .fa-icon {
         color: #8585a1;
-        width: 16px;
-        height: 16px;
+        width: 0.44444rem;
+        height: 0.44444rem;
       }
 			input {
-				padding: 0 10px;
-				line-height: 36px;
+				padding: 0 0.22222rem;
+				line-height: 0.44444rem;
         outline: none;
         border: none;
+        width: 90%;
 			}
 		}
 		button {
-			padding: 0 20px;
-			margin: 32px auto;
-			line-height: 44px;
-      height: 44px;
+			padding: 0 0.55556rem;
+			margin: 0.44444rem auto;
+			line-height: 1.22222rem;
+      height: 1.22222rem;
       background: #a798f8;
       color: #fff;
       border: none;
-      border-radius: 21px;
+      border-radius: 0.58333rem;
       width: 98%;
-      font-size: 16px;
+      font-size: 0.44444rem;
 		}
 	}
 </style>
@@ -85,7 +87,7 @@
 </template>
 <script>
     import { mapActions } from 'vuex'
-    import { USER_SIGNIN } from 'store/user'
+    import { USER_SIGNIN } from 'store/userlogin'
 
     export default {
         data() {

@@ -4,58 +4,68 @@
   }
   .login-error{
     width: 100%;
-    height: 32px;
-    line-height: 32px;
+    line-height: .92rem;
+    font-size: .44rem;
     text-align: center;
     position: absolute;
-    visibility: hidden;
+    top:-.14rem;
     background: #ff9966;
     color: #fff;
+    visibility: hidden;
     opacity: 0;
     transition: visibility 0.5s, opacity 0.5s linear;
+
+    // max-height: 0rem;
+    // transition: max-height 1.1s cubic-bezier(1, 0, 0.75, 1);
   }
   .login-error.show{
     visibility: visible;
     opacity: 1;
+    // max-height: 13rem;
+    // transition: max-height 1.1s cubic-bezier(1, 0, 0.75, 1);
     transition: visibility 0.5s, opacity 0.5s linear;
   }
   .head {
     text-align: center;
-    font-size: 20px;
-    padding-top: 40px;
+    font-size: 0.47222rem;
+    padding: 0.44444rem;
+    margin-top: .69rem;
   }
 	.login {
-		padding: 50px;
+		padding: 0.41667rem;
+
 		text-align: center;
 		.line {
-			padding: 10px 5px 0 5px;
-      border-bottom: 1px solid #efedfa;
+			padding: 0.38889rem 0.06944rem 0.27778rem 0.06944rem;
+      margin:0.27778rem;
+      border-bottom: 0.01389rem solid #efedfa;
       display: flex;
       align-items: center;
       .fa-icon {
         color: #8585a1;
-        width: 16px;
-        height: 16px;
+        width: .67rem;
+        height: .67rem;
       }
 			input {
-				padding: 0 10px;
-				line-height: 36px;
+				padding: 0 0.22222rem;
+				line-height:0.44444rem;
         outline: none;
         border: none;
-        width: 90%
+        width: 90%;
+        font-size: .44rem
 			}
 		}
 		button {
-			padding: 0 20px;
-			margin: 32px auto;
-			line-height: 44px;
-      height: 44px;
+			padding: 0 0.55556rem;
+			margin: 0.44444rem auto;
+			line-height: 1.22222rem;
+      height: 1.22222rem;
       background: #a798f8;
       color: #fff;
       border: none;
-      border-radius: 21px;
+      border-radius: 0.58333rem;
       width: 98%;
-      font-size: 16px;
+      font-size: 0.44444rem;
 		}
 	}
 </style>
@@ -65,7 +75,7 @@
     <div class="head"><p>LOG IN</p></div>
   <div class="login-form">
       <div class="login-error" v-bind:class="{ show: isError }">
-        User name or password error
+        <span>User name or password error</span>
       </div>
       <form class="login" v-on:submit.prevent="submit">
   			<div class="line">
@@ -88,54 +98,66 @@
 </template>
 <script>
     import { mapActions } from 'vuex'
-    import { USER_SIGNIN } from 'store/user'
-
+    import { USER_SIGNIN } from 'store/userlogin'
     export default {
         data() {
 			return {
 				btn: false, //true 已经提交过， false没有提交过
 				form: {
+          isLogin:false,
 					name: '',
 					passwd: ''
 				},
         isError: false,
-        list:[1,2,3,4,5],
-        topStatus: '',
-        name: "abc",
-        passwd: "123",
-        needVerify:true
+        networkError:false,
+        needVerify:false //修改使得登陆后跳手机验证，真实数据从后台返回
 			}
 		},
+    beforeCreate:function(){
+      if(JSON.parse(sessionStorage.getItem('user'))){
+        this.$router.replace({ path: '/' })
+      }
+    },
 		methods: {
-            ...mapActions([USER_SIGNIN]),
-      handleTopChange(status) {
-              this.topStatus = status;
-            },
+      ...mapActions([USER_SIGNIN]),
 			submit() {
 				this.btn = true
-				if(this.form.name!=this.name || this.form.passwd!=this.passwd) {
-          this.isError = true;
-          return
-        }
-				this.USER_SIGNIN(this.form)
-        // actions中处理 USER_SIGNIN
-        if(this.needVerify){
-          this.$router.replace({ path: '/verify' })
-        }else{
-          this.$router.replace({ path: '/home' })
-        }
+        //前台异步处理登录接口
+        this.$http.get("http://54.64.140.233:3011/login", {
+          params: {
+            name: this.form.name,
+            passwd: this.form.passwd
+          }
+        }).then(
+          //成功时修改本地数据
+          response => {
+            if(response.data.state == 200){
+              this.form.isLogin = true
+            //   state.isLogin = true
+            }else {
+              this.form.isLogin = false
+              this.isError = true
+              return
+            //   state.isLogin = false
+            }
+            this.USER_SIGNIN(this.form)
+            // actions中处理 USER_SIGNIN 状态，根据状态控制路由
+
+            if(this.needVerify){
+              this.$router.replace({ path: '/verify' })
+            }else{
+              this.$router.replace({ path: '/home' })
+            }
+
+        }, response => {
+            //networkError
+            this.networkError = true;
+        })
+
 			},
       reset(){
         this.isError = false;
-      },
-      loadTop() {
-          this.list.push(this.list.length+1)
-          this.$refs.loadmore.onTopLoaded();
-        },
-      loadBottom() {
-        this.list.push(this.list.length+1)
-        this.allLoaded = true;// if all data are loaded
-        this.$refs.loadmore.onBottomLoaded();
+        this.networkError = false;
       }
 
 		}
