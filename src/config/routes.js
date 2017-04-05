@@ -18,6 +18,7 @@ export default [
             },
             {
                 path: '/home', //个人主页
+                meta: { auth: false },
                 component: resolve => require(['../pages/home/'], resolve)
             },
             {
