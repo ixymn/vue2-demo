@@ -1,10 +1,10 @@
 <style lang="less" scoped>
-  .verify-form{
+.login-form{
     position: relative;
-  }
-  .verify-hint{
+}
+.login-error{
     width: 100%;
-    height: 32px;
+    height: 0.889rem;
     line-height: 32px;
     text-align: center;
     position: absolute;
@@ -13,107 +13,269 @@
     color: #fff;
     opacity: 0;
     transition: visibility 0.5s, opacity 0.5s linear;
-  }
-  .verify-hint.show{
+}
+.login-error.show{
     visibility: visible;
     opacity: 1;
     transition: visibility 0.5s, opacity 0.5s linear;
-  }
-  .head {
+}
+.login {
     text-align: center;
-    font-size: 20px;
-    padding-top: 40px;
-  }
-	.verify {
-		padding: 50px;
-		text-align: center;
-		.line {
-			padding: 10px 5px 0 5px;
-      border-bottom: 1px solid #efedfa;
-      display: flex;
-      align-items: center;
-      .fa-icon {
-        color: #8585a1;
-        width: 16px;
-        height: 16px;
+    .line {
+        position: relative;
+        padding: 10px 5px 0 5px;
+        border-bottom: 1px solid #efedfa;
+        display: flex;
+        align-items: center;
+        .fa-icon {
+            color: #8585a1;
+            width: 16px;
+            height: 16px;
+        }
+      input {
+            padding: 0 30px;
+            line-height: 36px;
+            outline: none;
+            border: none;
+            width: 90%
       }
-			input {
-				padding: 0 10px;
-				line-height: 36px;
-        outline: none;
+    }
+    button {
+        padding: 0 20px;
+        margin: 32px auto;
+        line-height: 44px;
+        height: 44px;
+        background: #a798f8;
+        color: #fff;
         border: none;
-			}
-		}
-		button {
-			padding: 0 20px;
-			margin: 32px auto;
-			line-height: 44px;
-      height: 44px;
-      background: #a798f8;
-      color: #fff;
-      border: none;
-      border-radius: 21px;
-      width: 98%;
-      font-size: 16px;
-		}
-	}
+        border-radius: 21px;
+        width: 98%;
+        font-size: 16px;
+    }
+}
+.wrapper{
+    padding:0 0.417rem;
+}
+.chooseCountry{
+    height:1.222rem;
+    line-height: 1.222rem;
+    box-shadow: inset 0 -1px 0 0 #EFEDFA;
+    span{
+        font-size: 0.389rem;
+        color:#8585A1;
+    }
+}
+.countryZone{
+    ul{
+        padding-top:0.278rem;
+        display:flex;
+        justify-content:space-between;
+        flex-wrap:wrap;
+    }
+    li{
+        // float: left;
+        width:2.778rem;
+        height:0.889rem;
+        line-height: 0.83rem;
+        text-align: center;
+        border-radius: 50px;
+        border:1px solid #C4C4D0;
+        margin-bottom: 0.278rem;
+        color:#8585A1;
+    }
+    .active{
+        border: 1px solid #7D51FF;
+        color:#000;
+    }
+}
+.sendCode{
+    font-size: 14px;
+    color: #F87622;
+    line-height:40px;
+    width:94px;
+    position:absolute;
+    bottom:0;
+    right:0;
+    z-index: 10;
+}
+.skip{
+    text-align: center;
+    span{
+        display:inline-block;
+        padding: 0 20px;
+        line-height: 44px;
+        height: 44px;
+        color: #F87622;
+        border: none;
+        border-radius: 21px;
+        width: 38%;
+        font-size: 14px;
+    }
+}
+.head {
+    position:relative;
+    p{
+        text-align: center;
+        font-size: 20px;
+        height:3.2rem;
+        line-height: 2.8rem;
+    }
+}
+.loginError{
+    width: 100%;
+    height: 0.917rem;
+    line-height: 0.917rem;
+    text-align: center;
+    position: absolute;
+    bottom:0;
+    // display:none;
+    visibility:hidden;
+    background: #ff9966;
+    color: #fff;
+    transition: visibility 0.5s, opacity 0.5s linear;
+}
+.loginSuccess{
+    width: 100%;
+    height: 0.917rem;
+    line-height: 0.917rem;
+    text-align: center;
+    position: absolute;
+    bottom:0;
+    // display:none;
+    visibility:hidden;
+    background: #5DD198;
+    color: #fff;
+    transition: visibility 0.5s, opacity 0.5s linear;
+}
 </style>
 <template>
-<div>
-  <div class="head"><p>VERIFY MOBILE</p></div>
-  <div class="verify-form">
-      <div class="verify-hint" v-bind:class="{ show: isShow }">
-        User name or password error
-      </div>
-      <div class="verify" >
-        <div class="line">
-          <div class="select-title">Please select a country <icon name="arrow"></icon></div>
-          <ul class="country-list"></ul>
+<div class="loadMore">
+    <div class="head">
+        <p>VERIFY MOBILE</p>
+        <div class="loginSuccess" v-show="loginSuccess">
+            <span>Success</span>
         </div>
-  			<div class="line">
-          <icon name="user"></icon>
-  				<input type="number" placeholder="Username/phone" v-model="verify.phone" >
-  			</div>
-  			<div class="line">
-          <icon name="lock"></icon>
-  				<input type="password" v-on:click="reset" placeholder="password" v-model="verify.code" >
-  			</div>
-  			<button @="submit">Login</button>
-  		</div>
+        <div class="loginError" v-show="loginError">
+            <span>Identifying code wrong!</span>
+        </div>
+    </div>
+    <div class="wrapper">
+        <div class="chooseCountry" @click="countryToggle">
+            <span>Please select a country</span>
+        </div>
+        <div class="countryZone" v-show="counToggle">
+            <ul>
+                <li @click="chooseCoun(country)" v-for="(country,index) in countries" :class="{active:country.isActive}">
+                    {{country.name}}
+                </li>
+            </ul>
+        </div>
+        <div class="login-form">
+            <form class="login">
+                  <div class="line">
+              <!-- <icon name="user"></icon> -->
+                      <input type="text" placeholder="phone" v-model="form.phone" >
+                  </div>
+                  <div class="line">
+              <!-- <icon name="lock"></icon> -->
+                      <input type="text" placeholder="verification code" v-model="form.passwd" >
+                    <div class="sendCode">Resend in 56s</div>
+                  </div>
+                  <button @click="goSubmit">SUBMIT</button>
+                <div class="skip" @click="SKIP"><span>SKIP</span></div>
+              </form>
+        </div>
     </div>
 </div>
+
+    <!-- <mt-loadmore :top-method="loadTop" @top-status-change="handleTopChange" ref="loadmore">
+    <ul>
+      <li v-for="item in list">{{ item }}</li>
+    </ul>
+    </mt-loadmore> -->
 </template>
 <script>
-    import { mapActions } from 'vuex'
-    import { USER_SIGNIN } from 'store/user'
+    // import { mapActions } from 'vuex'
+    // import { USER_SIGNIN } from 'store/user'
 
     export default {
-        data() {
-			return {
-				btn: false, //true 已经提交过， false没有提交过
-				verify: {
-					phone: '',
-					passwd: '',
-          country:''
-				},
-        isError: false,
-        list:[1,2,3,4,5],
-        topStatus: ''
-			}
-		},
-		methods: {
-			submit() {
-				this.btn = true
-				if(!this.form.id || !this.form.name) {
-          this.isError = true;
-          return
-        }
-				this.USER_SIGNIN(this.form)
-        // actions中处理 USER_SIGNIN
-				this.$router.replace({ path: '/home' })
-			},
+        data(){
+            return{
+                form:{
+                    phone:'',
+                    verCode:'',
+                    zoneCode:''
+                },
+                countries:[
+                    {
+                        name:'Kenya',
+                        zoneCode:1,
+                        isActive:false
+                    },
+                    {
+                        name:'Uganda',
+                        zoneCode:2,
+                        isActive:false
+                    },
+                    {
+                        name:'Nigeria',
+                        zoneCode:3,
+                        isActive:false
+                    },
+                    {
+                        name:'China',
+                        zoneCode:4,
+                        isActive:false
+                    }
+                ],
+                verifyCode:true,
+                loginSuccess:true,
+                loginError:false,
+                counToggle:false
+            }
+        },
+        methods:{
+            countryToggle(){
+                this.counToggle = !this.counToggle
+            },
+            SKIP(){
+                // alert(9)
+            },
+            goSubmit(){
+                alert(9)
+            },
+            chooseCoun(country){
+                for(var i in this.countries){
+                    this.countries[i].isActive = false;
+                }
+                country.isActive=true
+            },
+            loadTop: function () {
+                let _this = this;
+                setTimeout(function () {
+                    _this.$refs.loadmore.onTopLoaded();
+                    let i = _this.list[0] - 1;
+                    _this.list.unshift(i);
+                }, 1000);
+            },
+            loadBottom: function () {
+                let _this = this;
+                setTimeout(function () {
+                    let i = _this.list[_this.list.length - 1] + 1;
+                    _this.list.push(i);
+                    //_this.allLoaded = true;
+                    _this.$refs.loadmore.onBottomLoaded();
+                }, 1000);
+            }
 
-
-		}
+        },
+        created(){
+            var url = 'http://54.64.140.233:3011/orderlist';
+            this.$http.get(url).then(result=>{
+                console.log(result.data.order)
+            },result=>{
+                // alert('连接失败');
+            });
+        },
     }
 </script>
