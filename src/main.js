@@ -21,6 +21,11 @@ import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
 Vue.use(MintUI)
 
+/*axios数据接口*/
+import axios from 'axios'
+Vue.prototype.$http = axios
+
+
 Object.keys(components).forEach((key) => {
     var name = key.replace(/(\w)/, (v) => v.toUpperCase()) //首字母大写
     Vue.component(`v${name}`, components[key])
