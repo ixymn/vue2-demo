@@ -110,7 +110,7 @@
 				},
         isError: false,
         networkError:false,
-        needVerify:false //修改使得登陆后跳手机验证，真实数据从后台返回
+        needVerify:true //修改使得登陆后跳手机验证，真实数据从后台返回
 			}
 		},
     beforeCreate:function(){

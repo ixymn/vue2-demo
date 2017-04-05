@@ -25,7 +25,7 @@
 .logout_btn{
 	margin-top:1.388889rem;
 	background: #7D51FF;
-	box-shadow: 0 0.138889rem 0.277778rem 0 #D2D2D2;	
+	box-shadow: 0 0.138889rem 0.277778rem 0 #D2D2D2;
 	color:white;
 }
 .cancel_btn{
@@ -38,12 +38,14 @@
 		<p class="logout_header">
 			Are you sure you want to logout?
 		</p>
-	
-		<div class="logout_com_btn logout_btn" >LOG OUT</div>
+
+		<div class="logout_com_btn logout_btn" @click="logoutClick">LOG OUT</div>
 		<div class="logout_com_btn cancel_btn" @click="logoutClose">NOT SURE</div>
 	</div>
 </template>
 <script>
+  import { mapActions } from 'vuex'
+  import { USER_SIGNOUT } from 'store/userlogin'
 	export default {
 		props:{
 			num:{
@@ -52,6 +54,12 @@
 			},
 		},
 		methods:{
+      ...mapActions([USER_SIGNOUT]),
+
+      logoutClick:function(){
+        this.USER_SIGNOUT()
+        this.$router.replace({ path: '/login' })
+      },
 			logoutClose:function(){
 				this.$emit("logoutClose");
 			},
