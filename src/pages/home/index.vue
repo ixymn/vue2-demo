@@ -47,7 +47,7 @@
 <template>
 	<div class="orders">
 		<div class="ords_head">
-			<span class="logout_ico"></span>
+			<span class="logout_ico" @click="logoutOpen"></span>
 			<div class="ords_state_btn">
 				<span class="ords_state" :class="{ords_state_active: isActive}" @click="changeOrderState(1)">Waiting</span>
 				<span class="ords_state" :class="{ords_state_active: !isActive}"
@@ -60,10 +60,13 @@
 			</mt-loadmore>
 		</div>
 		<mt-popup position="right" v-model="popupRightVisible" style="height:100%">
-			<dispatchPopup v-on:dispatchClose="dispatchClose" :num="num"></dispatchPopup>
+			<dispatchPopup v-on:dispatchClose="dispatchClose" :num="num" :key="num"></dispatchPopup>
 		</mt-popup>
 		<mt-popup position="bottom" v-model="popupBottomVisible" style="background:transparent;">
 			<cancelPopup v-on:cancelClose="cancelClose" :num="num"></cancelPopup>
+		</mt-popup>
+		<mt-popup position="bottom" v-model="popupLogoutVisible" style="background:transparent;">
+			<logout v-on:logoutClose="logoutClose" :num="num"></logout>
 		</mt-popup>
 	</div>
 	
@@ -73,6 +76,7 @@
     import orderItemComponent from  '../../plugins/order_item.vue'
     import dispatchPopup from '../../plugins/order_dispatch.vue'
     import cancelPopup from '../../plugins/order_cancel.vue'
+    import logout from '../../plugins/logout.vue'
 
     export default {
     	data: function () {
@@ -81,7 +85,9 @@
 				lists: [],
 				popupRightVisible:false,
 				popupBottomVisible:false,
+				popupLogoutVisible:false,
 				num:0,
+
 			}
     	},
     	beforeCreate:function(){
@@ -99,6 +105,7 @@
     		orderItemComponent,
     		dispatchPopup,
     		cancelPopup,
+    		logout,
     	},
         computed: mapState({ user: state => state.user }),
         methods:{
@@ -119,7 +126,6 @@
 			loadBottom: function () {
 				let _this = this;
 				setTimeout(function () {
-					
 					//_this.allLoaded = true;
 					_this.$refs.loadmore.onBottomLoaded();
 				}, 1000);
@@ -137,6 +143,12 @@
 			},
 			cancelClose:function(){
 				this.popupBottomVisible=false;
+			},
+			logoutOpen:function(){
+				this.popupLogoutVisible=true;
+			},
+			logoutClose:function(){
+				this.popupLogoutVisible=false;
 			},
         },
     }

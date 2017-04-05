@@ -26,12 +26,17 @@ plugins.push(
     new HtmlWebpackPlugin({ //根据模板插入css/js等生成最终HTML
         filename: './index.html', //生成的html存放路径，相对于 path
         template: './src/template/index.html', //html模板路径
-    })
+    }),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()
 )
 
 
 module.exports = {
-    entry: ['./src/main.js'], //编译入口文件
+    entry: [
+      'webpack-dev-server/client?http://127.0.0.1:3010',
+      'webpack/hot/dev-server',
+      './src/main.js'], //编译入口文件
     output: {
         publicPath: config.publicPath, //服务器的路径
         path: path.resolve(__dirname + config.publicPath), //编译到app目录
