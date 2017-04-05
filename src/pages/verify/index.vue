@@ -5,7 +5,7 @@
 .login-error{
     width: 100%;
     height: 0.889rem;
-    line-height: 32px;
+    line-height: 0.889rem;
     text-align: center;
     position: absolute;
     visibility: hidden;
@@ -33,8 +33,8 @@
             height: 16px;
         }
       input {
-            padding: 0 30px;
-            line-height: 36px;
+            padding: 0 0.833rem;
+            line-height: 1.0rem;
             outline: none;
             border: none;
             width: 90%
@@ -43,12 +43,12 @@
     button {
         padding: 0 20px;
         margin: 32px auto;
-        line-height: 44px;
-        height: 44px;
+        line-height: 1.0rem;
+        height: 1.0rem;
         background: #a798f8;
         color: #fff;
         border: none;
-        border-radius: 21px;
+        border-radius: 0.583rem;
         width: 98%;
         font-size: 16px;
     }
@@ -75,10 +75,12 @@
     li{
         // float: left;
         width:2.778rem;
-        height:0.889rem;
-        line-height: 0.83rem;
+        // height:0.889rem;
+        // line-height:0.889rem;
+        padding:9px 0;
+        // padding: 1.5rem 2rem;
         text-align: center;
-        border-radius: 50px;
+        border-radius: 1.389rem;
         border:1px solid #C4C4D0;
         margin-bottom: 0.278rem;
         color:#8585A1;
@@ -91,20 +93,23 @@
 .sendCode{
     font-size: 14px;
     color: #F87622;
-    line-height:40px;
-    width:94px;
+    line-height:1.111rem;
+    width:2.611rem;
     position:absolute;
     bottom:0;
     right:0;
     z-index: 10;
+}
+.sendCode.active{
+    color:#8585A1;
 }
 .skip{
     text-align: center;
     span{
         display:inline-block;
         padding: 0 20px;
-        line-height: 44px;
-        height: 44px;
+        line-height: 1.222rem;
+        height: 1.222rem;
         color: #F87622;
         border: none;
         border-radius: 21px;
@@ -149,7 +154,7 @@
 }
 </style>
 <template>
-<div class="loadMore">
+<div>
     <div class="head">
         <p>VERIFY MOBILE</p>
         <div class="loginSuccess" v-show="loginSuccess">
@@ -178,8 +183,9 @@
                   </div>
                   <div class="line">
               <!-- <icon name="lock"></icon> -->
-                      <input type="text" placeholder="verification code" v-model="form.passwd" >
-                    <div class="sendCode">Resend in 56s</div>
+                        <input type="text" placeholder="verification code" v-model="form.passwd" >
+                        <div class="sendCode" @click="sendCodeClick" v-show="!countNum">SEND</div>
+                        <div class="sendCode active" v-show="countNum">Resend in {{countNum}}s</div>
                   </div>
                   <button @click="goSubmit">SUBMIT</button>
                 <div class="skip" @click="SKIP"><span>SKIP</span></div>
@@ -188,11 +194,6 @@
     </div>
 </div>
 
-    <!-- <mt-loadmore :top-method="loadTop" @top-status-change="handleTopChange" ref="loadmore">
-    <ul>
-      <li v-for="item in list">{{ item }}</li>
-    </ul>
-    </mt-loadmore> -->
 </template>
 <script>
     // import { mapActions } from 'vuex'
@@ -201,6 +202,8 @@
     export default {
         data(){
             return{
+                sendCodeHint:'SEND',
+                popupVisible:true,
                 form:{
                     phone:'',
                     verCode:'',
@@ -231,15 +234,27 @@
                 verifyCode:true,
                 loginSuccess:true,
                 loginError:false,
-                counToggle:false
+                counToggle:false,
+                countNum:''
             }
         },
         methods:{
+            sendCodeClick(){
+                this.countNum = 3;
+                var THIS = this;
+                var countDown = setInterval(countDownF,1000);
+                function countDownF(){
+                    THIS.countNum--;
+                    if(THIS.countNum ===0){
+                        clearInterval(countDown)
+                    }
+                }
+            },
             countryToggle(){
                 this.counToggle = !this.counToggle
             },
             SKIP(){
-                // alert(9)
+
             },
             goSubmit(){
                 alert(9)
