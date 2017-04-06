@@ -152,6 +152,17 @@
     color: #fff;
     transition: visibility 0.5s, opacity 0.5s linear;
 }
+.counFade-enter-active {
+  transition: all .3s ease;
+}
+.counFade-leave-active {
+  transition: all .4s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.counFade-enter, .counFade-leave-active {
+  transform: translateX(30px);
+  opacity: 0;
+}
+
 </style>
 <template>
 <div>
@@ -165,9 +176,10 @@
         </div>
     </div>
     <div class="wrapper">
-        <div class="chooseCountry" @click="countryToggle">
+        <div class="chooseCountry" @click="counToggle=!counToggle">
             <span>Please select a country</span>
         </div>
+        <transition name="counFade">
         <div class="countryZone" v-show="counToggle">
             <ul>
                 <li @click="chooseCoun(country)" v-for="(country,index) in countries" :class="{active:country.isActive}">
@@ -175,6 +187,7 @@
                 </li>
             </ul>
         </div>
+        </transition>
         <div class="login-form">
             <form class="login">
                   <div class="line">
@@ -249,9 +262,6 @@
                         clearInterval(countDown)
                     }
                 }
-            },
-            countryToggle(){
-                this.counToggle = !this.counToggle
             },
             SKIP(){
 
