@@ -63,7 +63,7 @@
 			<dispatchPopup v-on:dispatchClose="dispatchClose" :num="num" :key="num"></dispatchPopup>
 		</mt-popup>
 		<mt-popup position="bottom" v-model="popupBottomVisible" style="background:transparent;">
-			<cancelPopup v-on:cancelClose="cancelClose" :num="num"></cancelPopup>
+			<cancelPopup v-on:cancelClose="cancelClose" :num="num" :key="num"></cancelPopup>
 		</mt-popup>
 		<mt-popup position="bottom" v-model="popupLogoutVisible" style="background:transparent;">
 			<logout v-on:logoutClose="logoutClose" :num="num"></logout>
