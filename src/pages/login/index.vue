@@ -60,13 +60,17 @@
 			margin: 0.44444rem auto;
 			line-height: 1.22222rem;
       height: 1.22222rem;
-      background: #a798f8;
+      background-color: #a798f8;
       color: #fff;
       border: none;
       border-radius: 0.58333rem;
       width: 98%;
       font-size: 0.44444rem;
+      transition: background-color .2s;
 		}
+    button.valid{
+      background-color: #7D51FF;transition: background-color .2s;
+    }
 	}
 </style>
 <template>
@@ -86,7 +90,7 @@
           <icon name="lock"></icon>
   				<input type="password" v-on:click="reset" placeholder="password" v-model="form.passwd" >
   			</div>
-  			<button>Login</button>
+  			<button v-bind:class="clickValidation">Login</button>
   		</form>
     </div>
     <!-- <mt-loadmore :top-method="loadTop" @top-status-change="handleTopChange" ref="loadmore">
@@ -117,6 +121,13 @@
       if(JSON.parse(sessionStorage.getItem('user'))){
         this.$router.replace({ path: '/' })
       }
+    },
+    computed: {
+    clickValidation: function () {
+      return {
+        valid: !(!this.form.name || !this.form.passwd) && !this.isError
+          }
+        }
     },
 		methods: {
       ...mapActions([USER_SIGNIN]),
