@@ -264,10 +264,11 @@
                 }
             },
             SKIP(){
-
+              this.$router.replace({ path: '/home' })
             },
             goSubmit(){
-                alert(9)
+                alert(9);
+                return false;
             },
             chooseCoun(country){
                 for(var i in this.countries){
